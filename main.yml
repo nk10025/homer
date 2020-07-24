@@ -1,0 +1,36 @@
+---
+- name: Create Homer Directory
+  file:
+    path: "{{project_directory}}/homer"
+    state: directory
+  tags: homer
+
+- name: Homer Configuration Files
+  template:
+    src: config.yml.j2
+    dest: "{{project_directory}}/homer/config.yml"
+  tags: homer
+  notify: restart homer
+
+- name: Create Homer Docker Container
+  docker_container:
+    name: homer
+    image: "nk10025/homer:{{homer_version}}"
+    pull: yes
+    restart_policy: unless-stopped
+    networks:
+      - name: proxy
+    networks_cli_compatible: yes
+    state: started
+    volumes:
+      - "{{project_directory}}/homer:/config"
+      - "{{project_directory}}/homer/config.yml:/homer/config.yml"
+    labels:
+      traefik.http.routers.homer.entrypoints: "websecure"
+      traefik.http.routers.homer.tls: "true"
+      traefik.http.routers.homer.rule: "Host(`{{project_tld}}`,`www.{{project_tld}}`)"
+      traefik.http.routers.homer.middlewares: "default-headers@file"
+      traefik.http.routers.homer.service: "homer"
+      traefik.http.services.homer.loadbalancer.server.port: "80"
+      traefik.enable: "true"
+  tags: homer
