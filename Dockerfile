@@ -4,19 +4,19 @@ FROM node:lts-alpine as build-stage
 WORKDIR /app
 
 COPY package*.json ./
-RUN yarn install --frozen-lockfile
-
+RUN yarn install 
+#--frozen-lock-file
 COPY . .
 RUN yarn build
 
-# production stage
-FROM alpine:3.11
+# production stage 3.11 orig
+FROM alpine:latest
 
 ENV USER darkhttpd
 ENV GROUP darkhttpd
 ENV GID 911
 ENV UID 911
-ENV PORT 8080
+ENV PORT 8081
 
 RUN addgroup -S ${GROUP} -g ${GID} && adduser -D -S -u ${UID} ${USER} ${GROUP} && \
     apk add -U --no-cache su-exec darkhttpd
