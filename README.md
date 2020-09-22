@@ -1,6 +1,6 @@
 <h1 align="center">
 	<img
-		width="180"
+		width="90"
 		alt="Homer's donut"
 		src="https://raw.githubusercontent.com//bastienwirtz/homer/master/public/logo.png">
     <br/>
@@ -45,7 +45,7 @@
 - [Configuration](docs/configuration.md)
 - [Tips & tricks](docs/tips-and-tricks.md)
 - [Roadmap](#roadmap) 
-- [Developement](docs/developement.md)
+- [Developement](docs/development.md)
 
 
 ## Features
