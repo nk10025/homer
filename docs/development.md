@@ -1,4 +1,4 @@
-## Developement
+## Building
 
 ```sh
 # Using yarn (recommended)
